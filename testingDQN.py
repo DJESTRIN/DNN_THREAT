@@ -13,7 +13,7 @@ import torch.nn.functional as F
 import cv2
 import numpy as np
 
-env = gym.make("CartPole-v1")
+env = gym.make("SpaceInvaders-v4")
 
 # set up matplotlib
 is_ipython = 'inline' in matplotlib.get_backend()
@@ -79,7 +79,7 @@ LR = 1e-4
 n_actions = env.action_space.n
 # Get the number of state observations
 state, info = env.reset()
-n_observations = len(state)
+n_observations = state.shape[0] * state.shape[1] * state.shape[2]
 
 policy_net = DQN(n_observations, n_actions).to(device)
 target_net = DQN(n_observations, n_actions).to(device)
@@ -192,15 +192,15 @@ for i_episode in range(num_episodes):
     # Initialize the environment and get it's state
     state, info = env.reset()
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
-    if i_episode == 0 or i_episode == num_episodes - 1:
-        result = cv2.VideoWriter("video" + str(i_episode) +".mp4",cv2.VideoWriter_fourcc(*('mp4v')),10,(300,300))
+    # if i_episode == 0 or i_episode == num_episodes - 1:
+    #     result = cv2.VideoWriter("video" + str(i_episode) +".mp4",cv2.VideoWriter_fourcc(*('mp4v')),10,(300,300))
     for t in count():
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
         reward = torch.tensor([reward], device=device)
         done = terminated or truncated
-        if i_episode == 0 or i_episode == num_episodes - 1:
-            result.write(observation)
+        # if i_episode == 0 or i_episode == num_episodes - 1:
+        #     result.write(observation)
 
         if terminated:
             next_state = None
@@ -227,8 +227,8 @@ for i_episode in range(num_episodes):
         if done:
             episode_durations.append(t + 1)
             plot_durations()
-            if i_episode == 0 or i_episode == num_episodes - 1:
-                result.release()
+            # if i_episode == 0 or i_episode == num_episodes - 1:
+            #     result.release()
             break
 
 print('Complete')
