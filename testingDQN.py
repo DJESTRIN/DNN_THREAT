@@ -98,7 +98,7 @@ n_actions = env.action_space.n
 # Get the number of state observations
 state, info = env.reset()
 ipdb.set_trace()
-n_observations = state.shape[0] * state.shape[1] * state.shape[2]
+n_observations = state.shape[0] * state.shape[1] 
 
 policy_net = DQN(n_observations, n_actions).to(device)
 target_net = DQN(n_observations, n_actions).to(device)
@@ -221,10 +221,10 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     scheduler.step()
     # Initialize the environment and get it's state
     state, info = env.reset()
+    state=np.mean(state,axis=2)
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
     for t in count():
-        ipdb.set_trace()
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
         reward = torch.tensor([reward], device=device)
@@ -233,7 +233,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
         if terminated:
             next_state = None
         else:
-            ipdb.set_trace()
+            observation=np.mean(observation,axis=2)
             next_state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
 
         # Store the transition in memory
