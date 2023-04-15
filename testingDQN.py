@@ -133,7 +133,8 @@ episode_durations = []
 
 def plot_durations(show_result=False):
     plt.figure(1)
-    durations_t = torch.tensor(reward, dtype=torch.float)
+    reward_oh=reward.cpu()
+    durations_t = torch.tensor(reward_oh, dtype=torch.float)
     if show_result:
         plt.title('Result')
     else:
