@@ -221,12 +221,14 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
     if i_episode>1:
+        ipdb.set_trace()
         average=torch.mean(reward)
 
     for t in count():
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
-        ipdb.set_trace()
+        if reward>0:
+            ipdb.set_trace()
         reward = torch.tensor([reward], device=device)
         done = terminated or truncated
 
