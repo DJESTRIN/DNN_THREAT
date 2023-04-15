@@ -5,18 +5,26 @@ import torch
 import numpy 
 import os,glob
 
-#
-class Record:
-  def __init__(self,input_path):
+# Record Neural weights, biases and activity
+class Record(object):
+  def __init__(self,input_path,env_name):
     self.input_path=input_path
+    self.env_name=env_name
       
-  def record(self,network,env_name,time,episode):
+  def record(self,network,time,episode):
     os.chdir(self.input_path)
-    filename=env_name + "_" + str(episode) + "_" + time + ".pt"
+    filename=self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
     torch.save(filename,network.state_dict)
+    
+  def record_activity(self,network_layer_activity, time, episode,network_name,layer_name)
+      # function to be placed inside neural network: x=Record.record_activity(nn.relu(nn.linear(x)),time,episode,network_name)
+      filename=self.input_path + "/" + network_name + "_" + str(layer_name) + self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
+      torch.save(filename,network_layer_activity)
+      return network_layer_activity
   
-  
-class tallformat:
+
+# Convert torch's pt files to tall format for analysis
+class tallformat(object):
   # Takes all recroding data and concatonates it into tall format. 
   def __init__(self,input_path):
     self.input_path=input_path
@@ -30,6 +38,8 @@ class tallformat:
       files=self.get_file_list
       for file in files:
         data=torch.load(file)
+      
+      # Subject, Environment, time, episode, Layer, Neuron, Weight,
         
   
   
