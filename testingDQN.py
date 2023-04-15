@@ -133,14 +133,14 @@ episode_durations = []
 
 def plot_durations(show_result=False):
     plt.figure(1)
-    durations_t = torch.tensor(episode_durations, dtype=torch.float)
+    durations_t = torch.tensor(reward, dtype=torch.float)
     if show_result:
         plt.title('Result')
     else:
         plt.clf()
         plt.title('Training...')
     plt.xlabel('Episode')
-    plt.ylabel('Duration')
+    plt.ylabel('Reward')
     plt.plot(durations_t.numpy())
     # Take 100 episode averages and plot them too
     if len(durations_t) >= 100:
@@ -220,15 +220,9 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     state, info = env.reset()
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
-    if i_episode>1:
-        ipdb.set_trace()
-        average=torch.mean(reward)
-
     for t in count():
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
-        if reward>0:
-            ipdb.set_trace()
         reward = torch.tensor([reward], device=device)
         done = terminated or truncated
 
