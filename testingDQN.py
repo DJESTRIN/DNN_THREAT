@@ -10,8 +10,12 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+import cv2
+import numpy as np
+import ipdb 
+import tqdm
 
-env = gym.make("CartPole-v1")
+env = gym.make("SpaceInvaders-v4")
 
 # set up matplotlib
 is_ipython = 'inline' in matplotlib.get_backend()
@@ -75,9 +79,10 @@ LR = 1e-4
 
 # Get number of actions from gym action space
 n_actions = env.action_space.n
+
 # Get the number of state observations
 state, info = env.reset()
-n_observations = len(state)
+n_observations = state.shape[0] * state.shape[1] * state.shape[2]
 
 policy_net = DQN(n_observations, n_actions).to(device)
 target_net = DQN(n_observations, n_actions).to(device)
@@ -101,7 +106,8 @@ def select_action(state):
             # t.max(1) will return the largest column value of each row.
             # second column on max result is index of where max element was
             # found, so we pick action with the larger expected reward.
-            return policy_net(state).max(1)[1].view(1, 1)
+            reshaped_state=np.reshape(state,(n_observations,1))
+            return policy_net(reshaped_state.T).max(1)[1].view(1, 1)
     else:
         return torch.tensor([[env.action_space.sample()]], device=device, dtype=torch.long)
 
@@ -157,7 +163,8 @@ def optimize_model():
     # Compute Q(s_t, a) - the model computes Q(s_t), then we select the
     # columns of actions taken. These are the actions which would've been taken
     # for each batch state according to policy_net
-    state_action_values = policy_net(state_batch).gather(1, action_batch)
+    reshaped_state_batch=np.reshape(state_batch,(BATCH_SIZE,n_observations))
+    state_action_values = policy_net(reshaped_state_batch).gather(1, action_batch)
 
     # Compute V(s_{t+1}) for all next states.
     # Expected values of actions for non_final_next_states are computed based
@@ -166,7 +173,8 @@ def optimize_model():
     # state value or 0 in case the state was final.
     next_state_values = torch.zeros(BATCH_SIZE, device=device)
     with torch.no_grad():
-        next_state_values[non_final_mask] = target_net(non_final_next_states).max(1)[0]
+        reshaped_nfns=np.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
+        next_state_values[non_final_mask] = target_net(reshaped_nfns).max(1)[0]
     # Compute the expected Q values
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
 
@@ -184,17 +192,21 @@ def optimize_model():
 if torch.cuda.is_available():
     num_episodes = 600
 else:
-    num_episodes = 300
+    num_episodes = 50
 
-for i_episode in range(num_episodes):
+for i_episode in tqdm.tqdm(range(num_episodes)):
     # Initialize the environment and get it's state
     state, info = env.reset()
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
+    # if i_episode == 0 or i_episode == num_episodes - 1:
+    #     result = cv2.VideoWriter("video" + str(i_episode) +".mp4",cv2.VideoWriter_fourcc(*('mp4v')),10,(300,300))
     for t in count():
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
         reward = torch.tensor([reward], device=device)
         done = terminated or truncated
+        # if i_episode == 0 or i_episode == num_episodes - 1:
+        #     result.write(observation)
 
         if terminated:
             next_state = None
@@ -221,9 +233,35 @@ for i_episode in range(num_episodes):
         if done:
             episode_durations.append(t + 1)
             plot_durations()
+            # if i_episode == 0 or i_episode == num_episodes - 1:
+            #     result.release()
             break
 
 print('Complete')
 plot_durations(show_result=True)
 plt.ioff()
 plt.show()
+
+def actualGame():
+    num_episodes = 50
+    # Create the environment
+    env = gym.make("SpaceInvaders-v0", render_mode="human")
+    # Run the environment for a fixed number of episodes
+    num_episodes = 1
+    for i_episode in range(num_episodes):
+        state, dummy = env.reset()
+        state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
+        # ipdb.set_trace()
+        # observation = np.array(observation)
+        for t in range(100):
+            env.render()  # Render the environment in a GUI
+            # time.sleep(0.1)
+            action = select_action(state)
+            observation, reward, done, info = env.step(action)[:4]
+            if done:
+                print("Episode finished after {} timesteps".format(t+1))
+                env.close()  # Close the environment after each episode
+                break
+        env.close()  # Close the environment after each episode
+
+# actualGame()
