@@ -97,6 +97,7 @@ n_actions = env.action_space.n
 
 # Get the number of state observations
 state, info = env.reset()
+ipdb.set_trace()
 n_observations = state.shape[0] * state.shape[1] * state.shape[2]
 
 policy_net = DQN(n_observations, n_actions).to(device)
@@ -133,6 +134,7 @@ episode_durations = []
 
 def plot_durations(show_result=False):
     plt.figure(1)
+    ipdb.set_trace()
     reward_oh=reward.cpu()
     durations_t = torch.tensor(reward_oh, dtype=torch.float)
     if show_result:
@@ -222,6 +224,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
     for t in count():
+        ipdb.set_trace()
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
         reward = torch.tensor([reward], device=device)
@@ -230,6 +233,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
         if terminated:
             next_state = None
         else:
+            ipdb.set_trace()
             next_state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
 
         # Store the transition in memory
