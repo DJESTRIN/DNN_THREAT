@@ -259,6 +259,8 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
             # if i_episode == 0 or i_episode == num_episodes - 1:
             #     result.release()
             break
+    
+    writer.add_scalar("Reward/Epoch", reward, epoch)
 
 print('Complete')
 plot_durations(reward,show_result=True)
