@@ -17,7 +17,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
-writer = SummaryWriter()
+writer = SummaryWriter('/data/dje4001/StressDQN')
 import torch.optim.lr_scheduler as lr_scheduler
 
 # Set current game
