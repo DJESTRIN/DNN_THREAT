@@ -175,6 +175,8 @@ def optimize_model():
             reshaped_nfns=torch.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
         except:
             ipdb.set_trace()
+            reshaped_nfns=torch.reshape(non_final_next_states,(non_final_next_states.shape[0],n_observations))
+         
         next_state_values[non_final_mask] = target_net(reshaped_nfns).max(1)[0]
     # Compute the expected Q values
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
