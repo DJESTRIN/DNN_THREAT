@@ -10,6 +10,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+from torch.utils.tensorboard import SummaryWriter
+writer = SummaryWriter()
 import numpy as np
 import ipdb 
 import tqdm 
@@ -49,16 +51,22 @@ class DQN(nn.Module):
 
     def __init__(self, n_observations, n_actions):
         super(DQN, self).__init__()
-        self.layer1 = nn.Linear(n_observations, 128)
-        self.layer2 = nn.Linear(128, 128)
-        self.layer3 = nn.Linear(128, n_actions)
+        self.layer1 = nn.Linear(n_observations, 10000)
+        self.layer2 = nn.Linear(10000, 1000)
+        self.layer3 = nn.Linear(1000, 500)
+        self.layer4 = nn.Linear(500, 128)
+        self.layer5 = nn.Linear(128, 128)
+        self.layer6 = nn.Linear(128, n_actions)
 
     # Called with either one element to determine next action, or a batch
     # during optimization. Returns tensor([[left0exp,right0exp]...]).
     def forward(self, x):
         x = F.relu(self.layer1(x))
         x = F.relu(self.layer2(x))
-        return self.layer3(x)
+        x = F.relu(self.layer3(x))
+        x = F.relu(self.layer4(x))
+        x = F.relu(self.layer5(x))
+        return self.layer6(x)
     
 
 # BATCH_SIZE is the number of transitions sampled from the replay buffer
@@ -202,7 +210,10 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     # Initialize the environment and get it's state
     state, info = env.reset()
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
-   
+    
+    if i_episode>1:
+        average=torch.mean(reward)
+
     for t in count():
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
