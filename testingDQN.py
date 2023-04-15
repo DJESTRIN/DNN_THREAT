@@ -254,13 +254,13 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
 
         if done:
             episode_durations.append(t + 1)
-            plot_durations()
+            plot_durations(reward)
             # if i_episode == 0 or i_episode == num_episodes - 1:
             #     result.release()
             break
 
 print('Complete')
-plot_durations(show_result=True)
+plot_durations(reward,show_result=True)
 plt.ioff()
 plt.show()
 
