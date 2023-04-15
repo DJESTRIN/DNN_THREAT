@@ -125,8 +125,8 @@ def select_action(state):
             # t.max(1) will return the largest column value of each row.
             # second column on max result is index of where max element was
             # found, so we pick action with the larger expected reward.
-            reshaped_state=torch.reshape(state,(n_observations,1))
-            return policy_net(reshaped_state.T).max(1)[1].view(1, 1)
+            #reshaped_state=torch.reshape(state,(n_observations,1))
+            return policy_net(state).max(1)[1].view(1, 1)
     else:
         return torch.tensor([[env.action_space.sample()]], device=device, dtype=torch.long)
 episode_durations = []
@@ -267,26 +267,3 @@ plot_durations(reward,show_result=True)
 plt.ioff()
 plt.show()
 
-def actualGame():
-    num_episodes = 50
-    # Create the environment
-    env = gym.make("SpaceInvaders-v0")
-    # Run the environment for a fixed number of episodes
-    num_episodes = 1
-    for i_episode in range(num_episodes):
-        state, dummy = env.reset()
-        state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
-        # ipdb.set_trace()
-        # observation = np.array(observation)
-        for t in range(100):
-            env.render()  # Render the environment in a GUI
-            # time.sleep(0.1)
-            action = select_action(state)
-            observation, reward, done, info = env.step(action)[:4]
-            if done:
-                print("Episode finished after {} timesteps".format(t+1))
-                env.close()  # Close the environment after each episode
-                break
-        env.close()  # Close the environment after each episode
-
-# actualGame()
