@@ -12,6 +12,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import numpy as np
 import ipdb 
+import tqdm 
 
 env = gym.make("SpaceInvaders-v4")
 
@@ -196,7 +197,7 @@ if torch.cuda.is_available():
 else:
     num_episodes = 50
 
-for i_episode in range(num_episodes):
+for i_episode in tqdm.tqdm(range(num_episodes)):
     print(i_episode)
     # Initialize the environment and get it's state
     state, info = env.reset()
