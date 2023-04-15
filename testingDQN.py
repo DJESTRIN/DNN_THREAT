@@ -171,8 +171,10 @@ def optimize_model():
     # state value or 0 in case the state was final.
     next_state_values = torch.zeros(BATCH_SIZE, device=device)
     with torch.no_grad():
-        ipdb.set_trace()
-        reshaped_nfns=torch.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
+        try:
+            reshaped_nfns=torch.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
+        except:
+            ipdb.set_trace()
         next_state_values[non_final_mask] = target_net(reshaped_nfns).max(1)[0]
     # Compute the expected Q values
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
