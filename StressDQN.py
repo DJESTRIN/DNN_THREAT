@@ -182,8 +182,8 @@ def optimize_model():
     # Compute Q(s_t, a) - the model computes Q(s_t), then we select the
     # columns of actions taken. These are the actions which would've been taken
     # for each batch state according to policy_net
-    reshaped_state_batch=torch.reshape(state_batch,(BATCH_SIZE,n_observations))
-    state_action_values = policy_net(reshaped_state_batch).gather(1, action_batch)
+    #reshaped_state_batch=torch.reshape(state_batch,(BATCH_SIZE,n_observations))
+    state_action_values = policy_net(state_batch).gather(1, action_batch)
 
     # Compute V(s_{t+1}) for all next states.
     # Expected values of actions for non_final_next_states are computed based
@@ -192,12 +192,12 @@ def optimize_model():
     # state value or 0 in case the state was final.
     next_state_values = torch.zeros(BATCH_SIZE, device=device)
     with torch.no_grad():
-        try:
-            reshaped_nfns=torch.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
-        except:
-            reshaped_nfns=torch.reshape(non_final_next_states,(non_final_next_states.shape[0],n_observations))
+        #try:
+         #   reshaped_nfns=torch.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
+        #except:
+         #   reshaped_nfns=torch.reshape(non_final_next_states,(non_final_next_states.shape[0],n_observations))
          
-        next_state_values[non_final_mask] = target_net(reshaped_nfns).max(1)[0]
+        next_state_values[non_final_mask] = target_net(non_final_next_states).max(1)[0]
     # Compute the expected Q values
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
 
@@ -221,7 +221,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     scheduler.step()
     # Initialize the environment and get it's state
     state, info = env.reset()
-    state=np.mean(state,axis=2)
+    #state=np.mean(state,axis=2)
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
     for t in count():
@@ -233,7 +233,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
         if terminated:
             next_state = None
         else:
-            observation=np.mean(observation,axis=2)
+            #observation=np.mean(observation,axis=2)
             next_state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
 
         # Store the transition in memory
@@ -255,7 +255,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
 
         if done:
             episode_durations.append(t + 1)
-            plot_durations(reward)
+            #plot_durations(reward)
             # if i_episode == 0 or i_episode == num_episodes - 1:
             #     result.release()
             break
