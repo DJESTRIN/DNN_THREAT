@@ -97,7 +97,6 @@ n_actions = env.action_space.n
 
 # Get the number of state observations
 state, info = env.reset()
-ipdb.set_trace()
 n_observations = state.shape[0] * state.shape[1] 
 
 policy_net = DQN(n_observations, n_actions).to(device)
