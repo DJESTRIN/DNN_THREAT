@@ -131,10 +131,10 @@ def select_action(state):
 episode_durations = []
 
 
-def plot_durations(show_result=False):
+def plot_durations(reward_rn, show_result=False):
     plt.figure(1)
-    reward=reward.cpu()
-    reward_oh=reward.clone().detach()
+    reward_rn=reward_rn.cpu()
+    reward_oh=reward_rn.clone().detach()
     durations_t = torch.tensor(reward_oh, dtype=torch.float)
     if show_result:
         plt.title('Result')
