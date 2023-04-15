@@ -12,6 +12,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 writer = SummaryWriter()
+import torch.optim.lr_scheduler as lr_scheduler
 import numpy as np
 import ipdb 
 import tqdm 
@@ -82,7 +83,14 @@ EPS_START = 0.9
 EPS_END = 0.05
 EPS_DECAY = 1000
 TAU = 0.005
-LR = 1e-4
+LR = 0.1
+
+#Custom function for changing the learning rate. 
+def custom_lr_scheduler(epoch):
+    # LR to be 0.1 * (1/1+0.01*epoch)
+    base_lr = 0.1
+    factor = 0.01
+    return base_lr/(1+factor*epoch)
 
 # Get number of actions from gym action space
 n_actions = env.action_space.n
@@ -96,6 +104,7 @@ target_net = DQN(n_observations, n_actions).to(device)
 target_net.load_state_dict(policy_net.state_dict())
 
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
+scheduler = lr_scheduler.LambdaLR(optimizer, custom_lr_scheduler)
 memory = ReplayMemory(10000)
 
 
@@ -201,12 +210,12 @@ def optimize_model():
     optimizer.step()
 
 if torch.cuda.is_available():
-    num_episodes = 600
+    num_episodes = 10000
 else:
     num_episodes = 50
 
 for i_episode in tqdm.tqdm(range(num_episodes)):
-    print(i_episode)
+    scheduler.step()
     # Initialize the environment and get it's state
     state, info = env.reset()
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
