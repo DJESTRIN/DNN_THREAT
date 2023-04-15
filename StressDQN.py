@@ -10,6 +10,10 @@ from itertools import count
 import tqdm 
 import ipdb 
 import numpy as np
+import sys
+sys.path.append("/data/dje4001/DNN_THREAT/")
+ipdb.set_trace()
+from record_network import Record,tallformat
 
 #Import torch and torch tools 
 import torch
