@@ -55,11 +55,11 @@ class DQN(nn.Module):
 
     def __init__(self, n_observations, n_actions):
         super(DQN, self).__init__()
-        self.layer1 = nn.Conv2d(n_observations, 1000,8,stride=2)
-        self.layer2 = nn.Conv2d(1000, 100,8,stride=2)
-        self.layer3 = nn.Conv2d(100, 10,8,stride=2)
-        self.layer4 = nn.Linear(10, 128)
-        self.layer5 = nn.Linear(128, 128)
+        self.layer1 = nn.Conv2d(n_observations, 100,8,stride=2)
+        self.layer2 = nn.Conv2d(100, 64,8,stride=2)
+        self.layer3 = nn.Conv2d(64, 32,8,stride=2)
+        self.layer4 = nn.Linear(32, 512)
+        self.layer5 = nn.Linear(512, 128)
         self.layer6 = nn.Linear(128, n_actions)
 
     # Called with either one element to determine next action, or a batch
