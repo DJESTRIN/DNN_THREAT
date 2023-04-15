@@ -133,8 +133,7 @@ episode_durations = []
 
 def plot_durations(show_result=False):
     plt.figure(1)
-    ipdb.set_trace()
-    reward_oh=reward.cpu()
+    reward_oh=reward.clone().detach()
     durations_t = torch.tensor(reward_oh, dtype=torch.float)
     if show_result:
         plt.title('Result')
