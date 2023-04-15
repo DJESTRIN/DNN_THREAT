@@ -106,7 +106,7 @@ def select_action(state):
             # t.max(1) will return the largest column value of each row.
             # second column on max result is index of where max element was
             # found, so we pick action with the larger expected reward.
-            reshaped_state=np.reshape(state,(n_observations,1))
+            reshaped_state=torch.reshape(state,(n_observations,1))
             return policy_net(reshaped_state.T).max(1)[1].view(1, 1)
     else:
         return torch.tensor([[env.action_space.sample()]], device=device, dtype=torch.long)
@@ -163,7 +163,7 @@ def optimize_model():
     # Compute Q(s_t, a) - the model computes Q(s_t), then we select the
     # columns of actions taken. These are the actions which would've been taken
     # for each batch state according to policy_net
-    reshaped_state_batch=np.reshape(state_batch,(BATCH_SIZE,n_observations))
+    reshaped_state_batch=torch.reshape(state_batch,(BATCH_SIZE,n_observations))
     state_action_values = policy_net(reshaped_state_batch).gather(1, action_batch)
 
     # Compute V(s_{t+1}) for all next states.
@@ -173,7 +173,7 @@ def optimize_model():
     # state value or 0 in case the state was final.
     next_state_values = torch.zeros(BATCH_SIZE, device=device)
     with torch.no_grad():
-        reshaped_nfns=np.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
+        reshaped_nfns=torch.reshape(non_final_next_states,(BATCH_SIZE,n_observations))
         next_state_values[non_final_mask] = target_net(reshaped_nfns).max(1)[0]
     # Compute the expected Q values
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
