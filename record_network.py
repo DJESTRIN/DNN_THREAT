@@ -4,6 +4,7 @@
 import torch
 import numpy 
 import os,glob
+import ipdb
 
 # Record Neural weights, biases and activity
 class Record(object):
@@ -12,6 +13,7 @@ class Record(object):
     self.env_name=env_name
       
   def record(self,network,time,episode):
+    ipdb.set_trace()
     os.chdir(self.input_path)
     filename=self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
     torch.save(filename,network.state_dict)
@@ -35,9 +37,10 @@ class tallformat(object):
     return glob.glob('*.pt')
   
   def buildtall(self)
-      files=self.get_file_list
-      for file in files:
-        data=torch.load(file)
+     ipdb.set_trace()
+     files=self.get_file_list
+     for file in files:
+       data=torch.load(file)
       
       # Subject, Environment, time, episode, Layer, Neuron, Weight,
         
