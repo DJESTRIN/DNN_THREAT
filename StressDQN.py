@@ -1,3 +1,5 @@
+""" A DQN for analysing synaptic weights durign stress  """
+# Import dependencies
 import gym
 import math
 import random
@@ -5,7 +7,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 from collections import namedtuple, deque
 from itertools import count
+import tqdm 
+import ipdb 
+import numpy as np
 
+#Import torch and torch tools 
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,26 +19,22 @@ import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 writer = SummaryWriter()
 import torch.optim.lr_scheduler as lr_scheduler
-import numpy as np
-import ipdb 
-import tqdm 
 
+# Set current game
 env = gym.make("SpaceInvaders-v4")
 
-# set up matplotlib
+# set up matplotlib REPLACE WITH TENSORBOARD
 is_ipython = 'inline' in matplotlib.get_backend()
 if is_ipython:
     from IPython import display
-
 plt.ion()
 
-# if gpu is to be used
+# Set device name
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-Transition = namedtuple('Transition',
-                        ('state', 'action', 'next_state', 'reward'))
 
-
+# Experience Replay class
+Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
 class ReplayMemory(object):
 
     def __init__(self, capacity):
@@ -47,7 +49,8 @@ class ReplayMemory(object):
 
     def __len__(self):
         return len(self.memory)
-    
+
+# Custom DQN agent 
 class DQN(nn.Module):
 
     def __init__(self, n_observations, n_actions):
@@ -69,6 +72,8 @@ class DQN(nn.Module):
         x = F.relu(self.layer5(x))
         return self.layer6(x)
     
+
+#Set hyperparameters:
 
 # BATCH_SIZE is the number of transitions sampled from the replay buffer
 # GAMMA is the discount factor as mentioned in the previous section
@@ -99,18 +104,16 @@ n_actions = env.action_space.n
 state, info = env.reset()
 n_observations = state.shape[0] * state.shape[1] 
 
+# Create neural networks
 policy_net = DQN(n_observations, n_actions).to(device)
 target_net = DQN(n_observations, n_actions).to(device)
 target_net.load_state_dict(policy_net.state_dict())
-
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
 scheduler = lr_scheduler.LambdaLR(optimizer, custom_lr_scheduler)
 memory = ReplayMemory(10000)
-
-
 steps_done = 0
 
-
+# Selects action while maintaining exploration:exploitation balance via epsilon
 def select_action(state):
     global steps_done
     sample = random.random()
@@ -126,11 +129,9 @@ def select_action(state):
             return policy_net(reshaped_state.T).max(1)[1].view(1, 1)
     else:
         return torch.tensor([[env.action_space.sample()]], device=device, dtype=torch.long)
-
-
 episode_durations = []
 
-
+# REPLACE WITH TENSOR BOARD
 def plot_durations(reward_rn, show_result=False):
     plt.figure(1)
     reward_rn=reward_rn.cpu()
