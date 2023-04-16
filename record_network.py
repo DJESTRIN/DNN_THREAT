@@ -5,6 +5,7 @@ import torch
 import numpy 
 import os,glob
 import ipdb
+import pandas as pd
 
 # Record Neural weights, biases and activity
 class Record(object):
@@ -37,9 +38,23 @@ class tallformat(object):
   def buildtall(self):
      ipdb.set_trace()
      files=self.get_file_list()
+     DF=pd.DataFrame()
      for file in files:
        data=torch.load(file)
+       DF_network=pd.DataFrame() 
        for thing in data:
+          DF_layer=pd.DataFrame()
+          if "weight" in thing:
+            data_oh=data[thing]
+            data_oh=data_oh.cpu().detach().numpy()
+            for i,column in enumerate(data_oh.T):
+              neuron_number=np.repeat(i,len(column))
+              DF_neuron=pd.DataFrame(neuron_number,column)
+              DF_layer=pd.concat(DF_layer,DF_neuron)
+          DF_network=pd.concat(DF_network,DF_layer)
+        DF=pd.concat(DF,DF_network)
+              
+          
           ipdb.set_trace()
       
       # Subject, Environment, time, episode, Layer, Neuron, Weight,
