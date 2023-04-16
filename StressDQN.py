@@ -253,8 +253,8 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
 
         #Record network weights and biases 
         ipdb.set_trace()
-        rec.record(target_net,t,i_episode)
-        rec.record(policy_net,t,i_episode)
+        rec.record(target_net,t,i_episode, 'target')
+        rec.record(policy_net,t,i_episode, 'policy')
         
         # Soft update of the target network's weights
         # θ′ ← τ θ + (1 −τ )θ′
