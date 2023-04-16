@@ -46,7 +46,9 @@ class tallformat(object):
           DF_layer=pd.DataFrame()
           if "weight" in thing:
             data_oh=data[thing]
-            if len(data_oh.shape)<2:
+            if len(data_oh.shape)>2:
+              continue
+            else:
               data_oh=data_oh.cpu().detach().numpy()
               for i,column in enumerate(data_oh.T):
                 ipdb.set_trace()
