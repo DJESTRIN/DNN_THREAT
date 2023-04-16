@@ -70,6 +70,7 @@ class DQN(nn.Module):
     # during optimization. Returns tensor([[left0exp,right0exp]...]).
     def forward(self, x):
         ipdb.set_trace()
+        x=torch.reshape(x,(x.shape[0],x.shape[3],x.shape[1],x.shape[2]))
         x = F.relu(self.layer1(x))
         x = F.relu(self.layer2(x))
         x = F.relu(self.layer3(x))
