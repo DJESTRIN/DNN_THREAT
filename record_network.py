@@ -39,7 +39,7 @@ class tallformat(object):
      files=self.get_file_list()
      for file in files:
        data=torch.load(file)
-       for thing in file:
+       for thing in data:
           ipdb.set_trace()
       
       # Subject, Environment, time, episode, Layer, Neuron, Weight,
