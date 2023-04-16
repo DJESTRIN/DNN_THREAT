@@ -18,7 +18,7 @@ class Record(object):
     filename=self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
     torch.save(filename,network.state_dict)
     
-  def record_activity(self,network_layer_activity, time, episode,network_name,layer_name)
+  def record_activity(self,network_layer_activity, time, episode,network_name,layer_name):
      # function to be placed inside neural network: x=Record.record_activity(nn.relu(nn.linear(x)),time,episode,network_name)
      filename=self.input_path + "/" + network_name + "_" + str(layer_name) + self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
      torch.save(filename,network_layer_activity)
@@ -36,7 +36,7 @@ class tallformat(object):
     os.chdir(self.input_path)
     return glob.glob('*.pt')
   
-  def buildtall(self)
+  def buildtall(self):
      ipdb.set_trace()
      files=self.get_file_list
      for file in files:
