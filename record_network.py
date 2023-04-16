@@ -6,6 +6,7 @@ import numpy
 import os,glob
 import ipdb
 import pandas as pd
+import numpy as np
 
 # Record Neural weights, biases and activity
 class Record(object):
