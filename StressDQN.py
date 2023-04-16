@@ -25,7 +25,8 @@ writer = SummaryWriter('/data/dje4001/StressDQN')
 import torch.optim.lr_scheduler as lr_scheduler
 
 # Set current game
-env = gym.make("SpaceInvaders-v4")
+env_name="SpaceInvaders-v4"
+env = gym.make(env_name)
 
 # set up matplotlib REPLACE WITH TENSORBOARD
 is_ipython = 'inline' in matplotlib.get_backend()
@@ -111,6 +112,7 @@ n_observations = state.shape[0] * state.shape[1]
 # Create neural networks
 policy_net = DQN(n_observations, n_actions).to(device)
 target_net = DQN(n_observations, n_actions).to(device)
+rec=Record("/data/dje4001/DNN_THREAT/model_data/",env_name)
 target_net.load_state_dict(policy_net.state_dict())
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
 scheduler = lr_scheduler.LambdaLR(optimizer, custom_lr_scheduler)
@@ -249,6 +251,11 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
         # Perform one step of the optimization (on the policy network)
         optimize_model()
 
+        #Record network weights and biases 
+        ipdb.set_trace()
+        rec.record(target_net,t,i_episode)
+        rec.record(policy_net,t,i_episode)
+        
         # Soft update of the target network's weights
         # θ′ ← τ θ + (1 −τ )θ′
         target_net_state_dict = target_net.state_dict()
