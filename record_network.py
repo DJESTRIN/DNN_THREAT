@@ -15,7 +15,7 @@ class Record(object):
   def record(self,network,time,episode, network_name):
     ipdb.set_trace()
     os.chdir(self.input_path)
-    filename=self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
+    filename=self.input_path + network_name + "_" + self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
     torch.save(network.state_dict(),filename)
     
   def record_activity(self,network_layer_activity, time, episode,network_name,layer_name):
