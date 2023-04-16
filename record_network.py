@@ -48,14 +48,13 @@ class tallformat(object):
             data_oh=data[thing]
             data_oh=data_oh.cpu().detach().numpy()
             for i,column in enumerate(data_oh.T):
+              ipdb.set_trace()
               neuron_number=np.repeat(i,len(column))
               DF_neuron=pd.DataFrame(neuron_number,column)
               DF_layer=pd.concat(DF_layer,DF_neuron)
           DF_network=pd.concat(DF_network,DF_layer)
         DF=pd.concat(DF,DF_network)
               
-          
-          ipdb.set_trace()
       
       # Subject, Environment, time, episode, Layer, Neuron, Weight,
         
