@@ -19,10 +19,10 @@ class Record(object):
     torch.save(filename,network.state_dict)
     
   def record_activity(self,network_layer_activity, time, episode,network_name,layer_name)
-      # function to be placed inside neural network: x=Record.record_activity(nn.relu(nn.linear(x)),time,episode,network_name)
-      filename=self.input_path + "/" + network_name + "_" + str(layer_name) + self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
-      torch.save(filename,network_layer_activity)
-      return network_layer_activity
+     # function to be placed inside neural network: x=Record.record_activity(nn.relu(nn.linear(x)),time,episode,network_name)
+     filename=self.input_path + "/" + network_name + "_" + str(layer_name) + self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
+     torch.save(filename,network_layer_activity)
+     return network_layer_activity
   
 
 # Convert torch's pt files to tall format for analysis
