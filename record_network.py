@@ -36,7 +36,6 @@ class tallformat(object):
     return glob.glob('*.pt')
   
   def buildtall(self):
-     ipdb.set_trace()
      files=self.get_file_list()
      DF=pd.DataFrame()
      for file in files:
@@ -55,12 +54,12 @@ class tallformat(object):
                 neuron_number=np.repeat(i,len(column))
                 DF_neuron=pd.DataFrame(neuron_number,column)
                 DF_layer=pd.concat(DF_layer,DF_neuron)
-          ipdb.set_trace()
-          if DF_layer.emtpy:
+          
+          if DF_layer.empty:
              conintue
           else:
             DF_network=pd.concat(DF_network,DF_layer)
-       if DF_network.emtpy:
+       if DF_network.empty:
           continue
        else:
           DF=pd.concat(DF,DF_network)
