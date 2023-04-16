@@ -12,7 +12,6 @@ import ipdb
 import numpy as np
 import sys
 sys.path.append("/data/dje4001/DNN_THREAT/")
-ipdb.set_trace()
 from record_network import Record,tallformat
 
 #Import torch and torch tools 
@@ -219,7 +218,7 @@ def optimize_model():
     optimizer.step()
 
 if torch.cuda.is_available():
-    num_episodes = 10000
+    num_episodes = 10
 else:
     num_episodes = 50
 
@@ -252,7 +251,6 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
         optimize_model()
 
         #Record network weights and biases 
-        ipdb.set_trace()
         rec.record(target_net,t,i_episode, 'target')
         rec.record(policy_net,t,i_episode, 'policy')
         
