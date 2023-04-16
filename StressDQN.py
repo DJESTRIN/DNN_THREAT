@@ -110,8 +110,8 @@ state, info = env.reset()
 n_observations = state.shape[0] * state.shape[1] 
 
 # Create neural networks
-policy_net = DQN(n_observations, n_actions).to(device)
-target_net = DQN(n_observations, n_actions).to(device)
+policy_net = DQN(3, n_actions).to(device)
+target_net = DQN(3, n_actions).to(device)
 rec=Record("/data/dje4001/DNN_THREAT/model_data/",env_name)
 target_net.load_state_dict(policy_net.state_dict())
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
