@@ -75,6 +75,7 @@ class DQN(nn.Module):
         x = F.relu(self.layer3(x))
         x = F.relu(self.layer4(x))
         x = F.relu(self.layer5(x))
+        ipdb.set_trace()
         return self.layer6(x)
     
 
