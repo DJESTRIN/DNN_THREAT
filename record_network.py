@@ -36,7 +36,7 @@ class tallformat(object):
   
   def buildtall(self):
      ipdb.set_trace()
-     files=self.get_file_list
+     files=self.get_file_list()
      for file in files:
        data=torch.load(file)
        for thing in file:
