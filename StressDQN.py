@@ -62,7 +62,7 @@ class DQN(nn.Module):
         self.layer1 = nn.Conv2d(n_channels, 100,8,stride=2)
         self.layer2 = nn.Conv2d(100, 64,8,stride=2)
         self.layer3 = nn.Conv2d(64, 32,8,stride=2)
-        self.layer4 = nn.Linear(32, 512)
+        self.layer4 = nn.Linear(14, 512)
         self.layer5 = nn.Linear(512, 128)
         self.layer6 = nn.Linear(128, n_actions)
 
