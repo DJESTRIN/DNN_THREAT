@@ -134,7 +134,7 @@ def select_action(state):
             # found, so we pick action with the larger expected reward.
             #reshaped_state=torch.reshape(state,(n_observations,1))
             ipdb.set_trace()
-            return policy_net(state).max(1)[1].view(1, 1)
+            return torch.argmax(policy_net(state).max(1)[1],axis=2)
     else:
         return torch.tensor([[env.action_space.sample()]], device=device, dtype=torch.long)
 episode_durations = []
