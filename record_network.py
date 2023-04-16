@@ -13,8 +13,6 @@ class Record(object):
     self.env_name=env_name
       
   def record(self,network,time,episode, network_name):
-    ipdb.set_trace()
-    os.chdir(self.input_path)
     filename=self.input_path + network_name + "_" + self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
     torch.save(network.state_dict(),filename)
     
