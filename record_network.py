@@ -56,7 +56,7 @@ class tallformat(object):
                 DF_layer=pd.concat(DF_layer,DF_neuron)
           
           if DF_layer.empty:
-             conintue
+             continue
           else:
             DF_network=pd.concat(DF_network,DF_layer)
        if DF_network.empty:
