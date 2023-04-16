@@ -57,9 +57,9 @@ class ReplayMemory(object):
 # Custom DQN agent 
 class DQN(nn.Module):
 
-    def __init__(self, n_observations, n_actions):
+    def __init__(self, n_channels, n_actions):
         super(DQN, self).__init__()
-        self.layer1 = nn.Conv2d(n_observations, 100,8,stride=2)
+        self.layer1 = nn.Conv2d(n_channels, 100,8,stride=2)
         self.layer2 = nn.Conv2d(100, 64,8,stride=2)
         self.layer3 = nn.Conv2d(64, 32,8,stride=2)
         self.layer4 = nn.Linear(32, 512)
