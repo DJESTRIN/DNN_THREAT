@@ -56,8 +56,14 @@ class tallformat(object):
                 DF_neuron=pd.DataFrame(neuron_number,column)
                 DF_layer=pd.concat(DF_layer,DF_neuron)
           ipdb.set_trace()
-          DF_network=pd.concat(DF_network,DF_layer)
-       DF=pd.concat(DF,DF_network)
+          if DF_layer.emtpy:
+             conintue
+          else:
+            DF_network=pd.concat(DF_network,DF_layer)
+       if DF_network.emtpy:
+          continue
+       else:
+          DF=pd.concat(DF,DF_network)
               
       
       # Subject, Environment, time, episode, Layer, Neuron, Weight,
