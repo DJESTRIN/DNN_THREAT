@@ -229,6 +229,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     scheduler.step()
     # Initialize the environment and get it's state
     state, info = env.reset()
+    ipdb.set_trace()
     #state=np.mean(state,axis=2)
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
