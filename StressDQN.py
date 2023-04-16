@@ -69,7 +69,6 @@ class DQN(nn.Module):
     # Called with either one element to determine next action, or a batch
     # during optimization. Returns tensor([[left0exp,right0exp]...]).
     def forward(self, x):
-        ipdb.set_trace()
         x=torch.reshape(x,(x.shape[0],x.shape[3],x.shape[1],x.shape[2]))
         x = F.relu(self.layer1(x))
         x = F.relu(self.layer2(x))
