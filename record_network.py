@@ -53,7 +53,7 @@ class tallformat(object):
               for i,column in enumerate(data_oh.T):
                 ipdb.set_trace()
                 neuron_number=np.repeat(i,len(column))
-                DF_neuron=pd.DataFrame(neuron_number,column)
+                DF_neuron=pd.DataFrame({'neuron':neuron_number,'weight':column})
                 DF_layer=pd.concat(DF_layer,DF_neuron)
           
           if DF_layer.empty:
