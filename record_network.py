@@ -12,11 +12,11 @@ class Record(object):
     self.input_path=input_path
     self.env_name=env_name
       
-  def record(self,network,time,episode):
+  def record(self,network,time,episode, network_name):
     ipdb.set_trace()
     os.chdir(self.input_path)
     filename=self.env_name + "_" + str(episode) + "_" + str(time) + ".pt"
-    torch.save(filename,network.state_dict())
+    torch.save(network.state_dict(),filename)
     
   def record_activity(self,network_layer_activity, time, episode,network_name,layer_name):
      # function to be placed inside neural network: x=Record.record_activity(nn.relu(nn.linear(x)),time,episode,network_name)
