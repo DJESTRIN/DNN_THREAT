@@ -11,7 +11,7 @@ import tqdm
 import ipdb 
 import numpy as np
 import sys
-sys.path.append("/data/dje4001/DNN_THREAT/")
+sys.path.append("runs/dnn_threat")
 from record_network import Record,tallformat
 
 #Import torch and torch tools 
