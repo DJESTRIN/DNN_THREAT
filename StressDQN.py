@@ -76,7 +76,6 @@ class DQN(nn.Module):
         x=torch.reshape(x,(x.shape[0],x.shape[1]*x.shape[2]*x.shape[3]))
         x = F.relu(self.layer4(x))
         x = F.relu(self.layer5(x))
-        ipdb.set_trace()
         return self.layer6(x)
     
 
@@ -230,7 +229,6 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     scheduler.step()
     # Initialize the environment and get it's state
     state, info = env.reset()
-    ipdb.set_trace()
     #state=np.mean(state,axis=2)
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
