@@ -220,7 +220,7 @@ def optimize_model():
     optimizer.step()
 
 if torch.cuda.is_available():
-    num_episodes = 10
+    num_episodes = 10000
 else:
     num_episodes = 50
 
@@ -231,9 +231,11 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     #state=np.mean(state,axis=2)
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     
+    cumulative_reward=[]
     for t in count():
         action = select_action(state)
         observation, reward, terminated, truncated, _ = env.step(action.item())
+        cumulative_reward.append(reward)
         reward = torch.tensor([reward], device=device)
         done = terminated or truncated
 
@@ -251,10 +253,6 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
 
         # Perform one step of the optimization (on the policy network)
         optimize_model()
-
-        #Record network weights and biases 
-        rec.record(target_net,t,i_episode, 'target')
-        rec.record(policy_net,t,i_episode, 'policy')
         
         # Soft update of the target network's weights
         # θ′ ← τ θ + (1 −τ )θ′
@@ -271,10 +269,11 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
             #     result.release()
             break
     
-    writer.add_scalar("Reward/Episode", reward, i_episode)
-
-print('Complete')
-plot_durations(reward,show_result=True)
-plt.ioff()
-plt.show()
-
+    #Record network weights and biases 
+    rec.record(target_net,t,i_episode, 'target')
+    rec.record(policy_net,t,i_episode, 'policy')
+    
+    #Calculate reward
+    cumulative_reward=np.array(cumulative_reward)
+    cumulative_reward=np.sum(cumulative_reward)
+    writer.add_scalar("Reward/Episode", cumulative_reward, i_episode)
