@@ -11,7 +11,7 @@ import tqdm
 import ipdb 
 import numpy as np
 import sys
-sys.path.append("runs/dnn_threat")
+sys.path.append("/data/dje4001/DNN_THREAT/")
 from record_network import Record,tallformat
 
 #Import torch and torch tools 
@@ -245,7 +245,6 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     rec.record(policy_net,t,i_episode, 'policy')
     
     #Calculate reward
-    ipdb.set_trace()
     cumulative_reward=np.array(cumulative_reward)
     cumulative_reward=np.sum(cumulative_reward)
     writer.add_scalar("Reward/Episode", cumulative_reward, i_episode)
