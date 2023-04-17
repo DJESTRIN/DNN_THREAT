@@ -138,35 +138,6 @@ def select_action(state):
         return torch.tensor([[env.action_space.sample()]], device=device, dtype=torch.long)
 episode_durations = []
 
-# REPLACE WITH TENSOR BOARD
-def plot_durations(reward_rn, show_result=False):
-    plt.figure(1)
-    reward_rn=reward_rn.cpu()
-    reward_oh=reward_rn.clone().detach()
-    durations_t = torch.tensor(reward_oh, dtype=torch.float)
-    if show_result:
-        plt.title('Result')
-    else:
-        plt.clf()
-        plt.title('Training...')
-    plt.xlabel('Episode')
-    plt.ylabel('Reward')
-    plt.plot(durations_t.numpy())
-    # Take 100 episode averages and plot them too
-    if len(durations_t) >= 100:
-        means = durations_t.unfold(0, 100, 1).mean(1).view(-1)
-        means = torch.cat((torch.zeros(99), means))
-        plt.plot(means.numpy())
-
-    plt.pause(0.001)  # pause a bit so that plots are updated
-    if is_ipython:
-        if not show_result:
-            display.display(plt.gcf())
-            display.clear_output(wait=True)
-        else:
-            display.display(plt.gcf())
-
-
 def optimize_model():
     if len(memory) < BATCH_SIZE:
         return
@@ -274,6 +245,7 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     rec.record(policy_net,t,i_episode, 'policy')
     
     #Calculate reward
+    ipdb.set_trace()
     cumulative_reward=np.array(cumulative_reward)
     cumulative_reward=np.sum(cumulative_reward)
     writer.add_scalar("Reward/Episode", cumulative_reward, i_episode)
