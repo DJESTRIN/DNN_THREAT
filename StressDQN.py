@@ -247,4 +247,5 @@ for i_episode in tqdm.tqdm(range(num_episodes)):
     #Calculate reward
     cumulative_reward=np.array(cumulative_reward)
     cumulative_reward=np.sum(cumulative_reward)
+    print(cumulative_reward)
     writer.add_scalar("Reward/Episode", cumulative_reward, i_episode)
