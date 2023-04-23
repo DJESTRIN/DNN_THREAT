@@ -5,6 +5,7 @@ import subprocess
 class classify_observation(object):
   def __init__(self,img_array,step,episode):
     #input into ilastik
+    self.grab_ilastik_output()
     self.get_common_objects()
     self.additiona_objects()
     self.write_data()
