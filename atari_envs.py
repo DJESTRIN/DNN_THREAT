@@ -16,30 +16,54 @@ import matplotlib.pyplot as plot
 import numpy as np
 import ipdb
 import time
+import os
+import random
+from PIL import Image
 
-for key in list(envs.registry.keys()):
-    # Create the environment
-    env = gym.make(key, render_mode="human")
-    print(env)
-    # Run the environment for a fixed number of episodes
-    num_episodes = 1
-    for i_episode in range(num_episodes):
-        observation, dummy = env.reset()
-        # ipdb.set_trace()
-        observation = np.array(observation)
-        print(observation.shape)
-        plot.figure()
-        plot.imshow(np.array(observation))
-        x = key + ".png"
+folder = "Adventure Image Folder"
+numberOfImages = 100
+
+def getFileCount():
+    return len([f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))])
+
+
+# Create the environment
+key = "ALE/Adventure-v5"
+env = gym.make(key, render_mode="human")
+print(env)
+# Run the environment for a fixed number of episodes
+num_episodes = 1
+while getFileCount() <= numberOfImages:
+    observation, dummy = env.reset()
+    # ipdb.set_trace()
+    observation = np.array(observation)
+    # plot.axis('off')
+    t = 0
+    randomness = 0.05
+    file_count = len([f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))])
+
+    while getFileCount() <= numberOfImages:
+        env.render()  # Render the environment in a GUI
+        # time.sleep(0.1)
+        action = env.action_space.sample()
+        observation, reward, done, info = env.step(action)[:4]
+        x = key + "Image" + str(t)
         x = x.replace("/","_")
-        plot.savefig(x)
-        for t in range(100):
-            env.render()  # Render the environment in a GUI
-            # time.sleep(0.1)
-            action = env.action_space.sample()
-            observation, reward, done, info = env.step(action)[:4]
-            if done:
-                print("Episode finished after {} timesteps".format(t+1))
-                env.close()  # Close the environment after each episode
-                break
-        env.close()  # Close the environment after each episode
+        x = folder + "/" + x
+        random_num = random.random() # (0,1]
+        if random_num <= randomness:
+            # fig = plot.figure(frameon=False)
+            # plot.imshow(np.array(observation))
+            # plot.savefig(x)
+            Image.fromarray(observation).save('{}.png'.format(x))
+            plot.close()
+            print("Images in {}: {}".format(folder,getFileCount()))
+
+        t += 1
+        file_count = len([f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))])
+        if done:
+            print("Episode finished after {} timesteps".format(t+1))
+            env.close()  # Close the environment after each episode
+            break
+    env.close()  # Close the environment after each episode
+
