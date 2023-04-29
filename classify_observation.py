@@ -1,3 +1,6 @@
+# Command should be python classify_observation.py PATH_TO_ILASTIK PROJECTFILE IMAGEFILES
+
+
 import subprocess
 import os
 import sys
@@ -6,6 +9,7 @@ import sys
 current_dir = os.getcwd()
 
 print("HEADS UP! This is assuming that you are using a Windows Computer and using Anaconda\n")
+
 pathToIlastik = sys.argv[1]
 
 os.chdir(pathToIlastik)
