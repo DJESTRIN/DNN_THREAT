@@ -1,26 +1,29 @@
-import ilastik
-import numpy as np
+import subprocess
+import os
+import sys
 
-class classify_observation(object):
-  def __init__(self,img_array,step,episode):
-    #input into ilastik
-    self.forward()
-    
-    def forward():
-      #Common sequence of functions
-    
-    def get_common_objects(self):
-      #Get agent location
-      #Get enemy (number + location)
-      
-    def write_data(self):
-     #save important data for analysis. 
-      
-class BattleZone(classify_observation):
-  def forward(self):
-    self.get_common_objects(self)
-    self.addtional_objects(self)
-    self.write_data(self)
-    
-  def additional_objects(self)
-  
+# Get the current working directory
+current_dir = os.getcwd()
+
+print("HEADS UP! This is assuming that you are using a Windows Computer and using Anaconda\n")
+pathToIlastik = sys.argv[1]
+
+os.chdir(pathToIlastik)
+
+projectFile = sys.argv[2]
+
+inputFiles = []
+
+print(os.getcwd() + "\n")
+
+for arg in sys.argv[3:]:
+    inputFiles.append(arg)
+
+for i in range(len(inputFiles)):
+    inputFiles[i] = current_dir + '\\' + inputFiles[i]
+
+inputFiles = ' '.join(inputFiles)
+
+print("ilastik.exe --headless --project={}\{} {}".format(current_dir, projectFile, inputFiles))
+
+os.system("ilastik.exe --headless --project={}\{} {}".format(current_dir, projectFile, inputFiles)) 
