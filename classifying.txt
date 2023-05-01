@@ -1,0 +1,3 @@
+Values for BattleZone-v4Image14_Simple Segmentation.h5: [1. 5.]
+Values for BattleZone-v4Image17_Simple Segmentation.h5: [1. 5.]
+Values for BattleZone-v4Image31_Simple Segmentation.h5: [1. 5.]
