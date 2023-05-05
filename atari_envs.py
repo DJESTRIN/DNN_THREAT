@@ -19,8 +19,9 @@ import time
 import os
 import random
 from PIL import Image
+import classify_observation as cobs
 
-folder = "Adventure Image Folder"
+folder = "TestingFolder"
 numberOfImages = 100
 
 def getFileCount():
@@ -28,7 +29,7 @@ def getFileCount():
 
 
 # Create the environment
-key = "ALE/Adventure-v5"
+key = "SpaceInvaders-v4"
 env = gym.make(key, render_mode="human")
 print(env)
 # Run the environment for a fixed number of episodes
