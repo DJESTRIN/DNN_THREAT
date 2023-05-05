@@ -29,3 +29,17 @@ def whichClass(game, num):
                 return "Death"
             case 8:
                 return "Boost"
+    elif game == "BattleZone":
+        match(num):
+            case 1:
+                return "Agent"
+            case 2:
+                return "Enemy"
+            case 3:
+                return "Bullet"
+            case 4:
+                return "Death"
+            case 5:
+                return "Background"
+            case 6:
+                return "Boost"
