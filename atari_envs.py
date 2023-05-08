@@ -19,7 +19,7 @@ import time
 import os
 import random
 from PIL import Image
-import classify_observation as cobs
+from classify_observation import Classify_observation
 
 folder = "TestingFolder"
 numberOfImages = 100
@@ -29,12 +29,15 @@ def getFileCount():
 
 
 # Create the environment
-key = "SpaceInvaders-v4"
+key = "BattleZone-v4"
+cob = Classify_observation("C:\Program Files\ilastik-1.4.0", "BattleZoneVersion0.ilp", "BattleZone")
 env = gym.make(key, render_mode="human")
 print(env)
 # Run the environment for a fixed number of episodes
-num_episodes = 1
-while getFileCount() <= numberOfImages:
+num_episodes = 3
+episode = 1
+# while getFileCount() <= numberOfImages:
+while episode <= num_episodes:
     observation, dummy = env.reset()
     # ipdb.set_trace()
     observation = np.array(observation)
@@ -43,7 +46,8 @@ while getFileCount() <= numberOfImages:
     randomness = 0.05
     file_count = len([f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))])
 
-    while getFileCount() <= numberOfImages:
+    # while getFileCount() <= numberOfImages:
+    while True:
         env.render()  # Render the environment in a GUI
         # time.sleep(0.1)
         action = env.action_space.sample()
@@ -65,6 +69,15 @@ while getFileCount() <= numberOfImages:
         if done:
             print("Episode finished after {} timesteps".format(t+1))
             env.close()  # Close the environment after each episode
+            
+            with open("testtext.txt", "a") as textfile:
+                textfile.write("\n\nEpisode {}:\n".format(episode))
+            episode += 1
+
+            cob.exportClassesFromDir("Exports", folder)
+            cob.displayAllClassesInOutputTextFile("Exports", "testtext.txt", "Enemy")
+            for file in [file for file in os.listdir(folder) if file.endswith('png')]:
+                os.remove(os.path.join(folder, file))
             break
     env.close()  # Close the environment after each episode
 
