@@ -1,0 +1,33 @@
+
+Query all
+
+BattleZone-v4Image1027_Simple Segmentation.h5: Agent, Death, Background
+BattleZone-v4Image1129_Simple Segmentation.h5: Agent, Bullet, Background, Boost
+BattleZone-v4Image1262_Simple Segmentation.h5: Agent, Enemy, Bullet, Background
+BattleZone-v4Image1278_Simple Segmentation.h5: Agent, Background
+BattleZone-v4Image1322_Simple Segmentation.h5: Agent, Enemy, Bullet, Background
+BattleZone-v4Image1438_Simple Segmentation.h5: Agent, Enemy, Bullet, Death, Background
+BattleZone-v4Image1479_Simple Segmentation.h5: Agent, Enemy, Death, Background
+BattleZone-v4Image153_Simple Segmentation.h5: Agent, Enemy, Bullet, Death, Background
+BattleZone-v4Image169_Simple Segmentation.h5: Agent, Background
+BattleZone-v4Image196_Simple Segmentation.h5: Death, Background
+BattleZone-v4Image277_Simple Segmentation.h5: Agent, Background
+BattleZone-v4Image309_Simple Segmentation.h5: Death, Background
+BattleZone-v4Image314_Simple Segmentation.h5: Death, Background
+BattleZone-v4Image325_Simple Segmentation.h5: Agent, Bullet, Death, Background
+BattleZone-v4Image33_Simple Segmentation.h5: Agent, Background
+BattleZone-v4Image378_Simple Segmentation.h5: Agent, Death, Background
+BattleZone-v4Image403_Simple Segmentation.h5: Agent, Background
+BattleZone-v4Image435_Simple Segmentation.h5: Agent, Death, Background
+BattleZone-v4Image494_Simple Segmentation.h5: Agent, Death, Background
+BattleZone-v4Image563_Simple Segmentation.h5: Agent, Bullet, Background, Boost
+BattleZone-v4Image58_Simple Segmentation.h5: Agent, Enemy, Bullet, Death, Background
+BattleZone-v4Image590_Simple Segmentation.h5: Death, Background
+BattleZone-v4Image610_Simple Segmentation.h5: Background
+BattleZone-v4Image651_Simple Segmentation.h5: Agent, Enemy, Bullet, Background
+BattleZone-v4Image747_Simple Segmentation.h5: Agent, Enemy, Death, Background
+BattleZone-v4Image867_Simple Segmentation.h5: Agent, Background
+BattleZone-v4Image91_Simple Segmentation.h5: Agent, Enemy, Bullet, Background
+BattleZone-v4Image921_Simple Segmentation.h5: Agent, Bullet, Background
+BattleZone-v4Image977_Simple Segmentation.h5: Agent, Death, Background
+BattleZone-v4Image988_Simple Segmentation.h5: Agent, Background
