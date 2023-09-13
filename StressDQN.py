@@ -11,7 +11,7 @@ import tqdm
 import ipdb 
 import numpy as np
 import sys
-sys.path.append("/data/dje4001/DNN_THREAT/")
+sys.path.append("/Users/dhritimamtora/DNN_THREAT/")
 from record_network import Record,tallformat
 
 #Import torch and torch tools 
@@ -20,11 +20,11 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
-writer = SummaryWriter('/data/dje4001/StressDQN')
+writer = SummaryWriter('/Users/dhritimamtora/DNN_THREAT/StressDQN')
 import torch.optim.lr_scheduler as lr_scheduler
 
 # Set current game
-env_name="SpaceInvaders-v4"
+env_name="SpaceInvaders"
 env = gym.make(env_name)
 
 # set up matplotlib REPLACE WITH TENSORBOARD
@@ -113,7 +113,7 @@ n_observations = state.shape[0] * state.shape[1]
 # Create neural networks
 policy_net = DQN(3, n_actions).to(device)
 target_net = DQN(3, n_actions).to(device)
-rec=Record("/data/dje4001/DNN_THREAT/model_data/",env_name)
+rec=Record("/Users/dhritimamtora/DNN_THREAT/model_data/",env_name)
 target_net.load_state_dict(policy_net.state_dict())
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
 scheduler = lr_scheduler.LambdaLR(optimizer, custom_lr_scheduler)
